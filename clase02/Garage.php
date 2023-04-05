@@ -50,10 +50,13 @@
         {
             echo "Razón Social: ", $this->_razonSocial, "<br>";
             echo "Precio por hora: ", $this->_precioPorHora, "<br>";
+            $contador=1;
 
             foreach($this->_autos as $auto)
             {
-                $auto->MostrarAuto();
+                echo "Auto Nº", $contador, "<br>";
+                Auto::MostrarAuto($auto);
+                $contador++;
             }
         }
 
@@ -68,6 +71,7 @@
                     break;
                 }
             }
+
             return $ret;
         }
 
@@ -76,28 +80,31 @@
             if (!$this->Equals($auto))
             {
                 array_push ($this->_autos, $auto);
-                echo ("El auto fue agregado al garage<br>");
+                echo ("El auto fue agregado al garage<br><br>");
             }
             else 
             {
-                echo ("El auto ya está en el garage<br>");
+                echo ("El auto ya está en el garage<br><br>");
             }
         }
 
         public function Remove($auto)
         {
-            $id = array_search($auto, $this->_autos);
-            if($id != false)
+            $ret = false;
+            if ($this->Equals($auto))
             {
-                unset($this->_autos[$id]);
-                echo ("El auto fue eliminado del garage<br>");
+                for($i=0; $i<count($this->_autos);$i++)
+                {
+                    if ($this->_autos[$i]->Equals($auto))
+                    {
+                        unset($this->_autos[$i]);
+                        echo "Auto eliminado.<br><br>";
+                        $ret = true;
+                        break;
+                    }
+                }
             }
-            else 
-            {
-                echo ("El auto no está en el garage<br>");
-            }
+            return $ret;
         }
-
-
     }
 ?>

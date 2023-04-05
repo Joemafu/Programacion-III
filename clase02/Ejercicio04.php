@@ -17,42 +17,37 @@ $auto5 = new Auto("Volkswagen", "Gris", 75000);
 
 $garage = new Garage('Mi Garage', 10);
 
-$garage->Add($auto1);
-$garage->Add($auto2);
-$garage->Add($auto3);
-$garage->Add($auto4);
-$garage->Add($auto5);
+$garage->Add($auto1); // Se agrega
+$garage->Add($auto2); // No se agrega
+$garage->Add($auto3); // Se agrega
+$garage->Add($auto4); // No se agrega
+$garage->Add($auto5); // Se agrega
 
-echo "<br><br><br><br>";
+$garage->MostrarGarage(); //Muestro coches 1, 3 y 5
 
-echo var_dump($garage->_autos);
-
-echo "<br><br><br><br>";
-
-//$garage->MostrarGarage();
-
-if ($garage->Equals($auto1)) {
-    echo "El auto 1 está en el garage.\n"; //opcion correcta
-} else {
-    echo "El auto 1 no está en el garage.\n";
+if ($garage->Equals($auto1)) 
+{
+    echo "El auto 1 está en el garage.<br><br>"; // Opción correcta
+} 
+else 
+{
+    echo "El auto 1 no está en el garage.<br><br>";
 }
 
-echo "<br>";
+$garage->Add($auto1); // Error! este auto ya está en el garage
 
-// Este auto ya está en el garage
-$garage->Add($auto1);
+$resultado = $garage->Remove($auto2); // Quitar auto del garage (debe quitar auto 1 debido a la lógica de negocio)
 
-// Quitar auto del garage
-$garage->Remove($auto2);
-
-// Mostrar garage
-//$garage->MostrarGarage();
+$garage->MostrarGarage(); // Muestro coches 3 y 5
 
 // Comparar auto en garage
-if ($garage->Equals($auto2)) {
-    echo "El auto 2 está en el garage.\n";
-} else {
-    echo "El auto 2 no está en el garage.\n";
+if ($garage->Equals($auto2)) 
+{
+    echo "El auto 2 está en el garage.<br><br>";
+} 
+else 
+{
+    echo "El auto 2 no está en el garage.<br><br>"; // Opción correcta
 }
 
 ?>

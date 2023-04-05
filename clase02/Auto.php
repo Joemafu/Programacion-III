@@ -63,7 +63,7 @@ class Auto
         echo "Color ->", $auto->_color, "<br>";
         echo "Precio ->", $auto->_precio, "<br>";
         echo "Marca ->", $auto->_marca, "<br>";
-        echo "Fecha ->", $auto->_fecha, "<br>";
+        echo "Fecha ->", $auto->_fecha, "<br><br>";
     }
 
     public function Equals($auto)
