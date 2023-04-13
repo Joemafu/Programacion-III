@@ -40,9 +40,9 @@
 
 class Auto
 {
+    private $_marca;
     private $_color;
     private $_precio;
-    private $_marca;
     private $_fecha;
 
     public function __construct($marca, $color, $precio = 0, $fecha = "")
@@ -86,9 +86,9 @@ class Auto
         return $ret;
     }
 
-    public static function GuardarAutoCSV($auto) //utilicé una lógica alternativa para guardar un solo auto al final del archivo, para practicar.
+    public static function GuardarAutoCSV($auto, $nombreArchivo) //utilicé una lógica alternativa para guardar un solo auto al final del archivo, para practicar.
     {        
-        if($archivo=fopen("autos.csv", "a"))
+        if($archivo=fopen($nombreArchivo, "a"))
         {
             $string = $auto->_color.",".$auto->_precio.",".$auto->_marca.",".$auto->_fecha."\n";
             if(fwrite($archivo, $string))
@@ -103,22 +103,15 @@ class Auto
         }
     }
 
-    public static function GuardarAutosCSV($arrayAutos)
+    public static function GuardarAutosCSV($arrayAutos, $nombreArchivo)
     {
-        if($archivo=fopen("autos.csv", "w"))
+        if($archivo=fopen($nombreArchivo, "w"))
         {
             foreach($arrayAutos as $auto)
             {   
                 $autoEnArray = get_object_vars($auto);
 
-                if(fputcsv($archivo, $autoEnArray))
-                {
-                    echo "El auto se guardó en formato csv.<br>";
-                }
-                else
-                {
-                    echo "No se pudo escribir en el archivo.<br>";
-                }
+                fputcsv($archivo, $autoEnArray);
             }            
             fclose($archivo);
         }
