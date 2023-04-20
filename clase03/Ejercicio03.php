@@ -10,6 +10,30 @@
     Cada usuario se agrega en un renglón diferente al anterior.
     Hacer los métodos necesarios en la clase usuario
 */
+    
+include_once "Usuario.php";
 
+$nombre = $_POST["nombre"];
+$clave = $_POST["clave"];
+$mail = $_POST["mail"];
+
+if ($nombre !== null && $clave !== null && $mail !== null)
+{
+    $usuarioNuevo = new Usuario($nombre,$clave,$mail);
+
+    $arrayUsuarios = array();
+
+    array_push($arrayUsuarios,$usuarioNuevo);    
+
+    if(Usuario::GuardarUsuariosCSV($arrayUsuarios))
+    {
+        echo "Se agregó el usuario.<br><br>";
+    }
+    else
+    {
+        echo "No se pudo agregar el usuario.<br><br>";
+    }
+    
+}
 
 ?>

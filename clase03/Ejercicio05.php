@@ -12,5 +12,13 @@
     Hacer los métodos necesarios en la clase usuario.
 */
 
+include_once "Usuario.php";
+
+$clave = $_POST["clave"];
+$mail = $_POST["mail"];
+
+$arrayUsuarios = Usuario::LeerusuariosCSV("usuarios.csv");
+
+echo Usuario::ValidarUsuario($mail, $clave, $arrayUsuarios);
 
 ?>

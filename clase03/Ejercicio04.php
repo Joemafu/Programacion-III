@@ -17,6 +17,16 @@
 
     Hacer los métodos necesarios en la clase usuario
 */
+include_once "Usuario.php";
 
+$listadoSolicitado = $_GET["listado"];
 
+$path = $listadoSolicitado.".csv";
+
+$arrayUsuarios = Usuario::LeerusuariosCSV($path);
+
+foreach ($arrayUsuarios as $usuario)
+{
+    $usuario->MostrarUsuarioEnListaHTML();
+}
 ?>
