@@ -2,25 +2,48 @@
 
 Class usuario
 {
-    public $_nombre;
-    public $_clave;
-    public $_mail;
-    public $_id;
-    public $_fechaAlta;
-    public $_rutaFoto;
+    private $_nombre;
+    private $_clave;
+    private $_mail;
+    private $_id;
+    private $_fechaAlta;
+    private $_rutaFoto;
 
-    public function __construct($nombre, $clave, $mail, $foto = null)
+    public function __construct($nombre, $clave, $mail, $foto = null, $id = null, $fechaAlta = null)
     {
         $this->_nombre=$nombre;
         $this->_clave=$clave;
         $this->_mail=$mail;
 
-        $this->_id=Usuario::asignarID();
-        $this->_fechaAlta=Usuario::asignarFechaAlta();
+        if ($id === null)
+        {
+            $this->_id = Usuario::asignarID();
+        }
+        else
+        {
+            $this->_id = $id;
+        }        
 
         if ($foto !== null)
         {
             $this->guardarFotoUsuario();
+        }
+        else
+        {
+            $rutaFoto = $this->_id."\\Fotos\\".$this->_id.".jpg";
+            if (file_exists($rutaFoto))
+            {
+                $this->_rutaFoto=$rutaFoto;
+            }
+        }
+
+        if ($fechaAlta === null)
+        {
+            $this->_fechaAlta=Usuario::asignarFechaAlta();
+        }   
+        else 
+        {
+            $this->_fechaAlta = $fechaAlta;
         }
     }
 
@@ -33,9 +56,9 @@ Class usuario
             {
                 if(!empty($usuario))
                 {
-                    $arrayUsuario = get_object_vars($usuario);
                     $usuario->_mail = strtolower($usuario->_mail);
                     $usuario->_nombre = strtolower($usuario->_nombre);
+                    $arrayUsuario = get_object_vars($usuario);
                     fputcsv($archivo, $arrayUsuario);
                     $ret = true;
                 }                
@@ -57,7 +80,7 @@ Class usuario
         {
             while (!empty($usuarioString = fgetcsv($archivo)))
             {
-                $usuario = new Usuario($usuarioString[0],$usuarioString[1],$usuarioString[2], $usuarioString[3]);
+                $usuario = new Usuario($usuarioString[0],$usuarioString[1],$usuarioString[2], $usuarioString[3], $usuarioString[4], $usuarioString[5]);
                 array_push($arrayUsuarios, $usuario);
             }
             fclose($archivo);
@@ -124,30 +147,6 @@ Class usuario
         return date('d/m/Y H:i:s');
     }
 
-    public function _nombre() {
-        return $this->_nombre;
-    }
-    
-    public function _clave() {
-        return $this->_clave;
-    }
-    
-    public function _mail() {
-        return $this->_mail;
-    }
-    
-    public function _id() {
-        return $this->_id;
-    }
-    
-    public function _fechaAlta() {
-        return $this->_fechaAlta;
-    }
-    
-    public function _rutaFoto() {
-        return $this->_rutaFoto;
-    }
-
     public function GuardarFotoUsuario()
     {
         //guardo el nombre temporal del archivo en una variable
@@ -167,10 +166,49 @@ Class usuario
         $this->_rutaFoto = $ruta;
     }
 
+    // public static function GuardarUsuariosJson($arrayUsuarios)
+    // {
+    //     $return = false;
+    //     $usuariosJSON = json_encode($arrayUsuarios);
+    //     if(file_put_contents("usuarios.json", $usuariosJSON)!==false)
+    //     {
+    //         $return = true;
+    //     }
+    //     return $return;
+    // }
+
     public static function GuardarUsuariosJson($arrayUsuarios)
     {
         $return = false;
-        $usuariosJSON = json_encode($arrayUsuarios);
+        $usuariosJSON="";
+
+        foreach ($arrayUsuarios as $usuario)
+        {
+            //Si lo quiero serializar como "valor" solo
+
+            // $aux = json_encode([
+            //     $usuario->_nombre, 
+            //     $usuario->_clave,
+            //     $usuario->_mail,
+            //     $usuario->_id,
+            //     $usuario->_fechaAlta,
+            //     $usuario->_rutaFoto  
+            // ]);
+
+            //Si lo quiero serializar como "clave:valor"
+
+            $aux = json_encode(
+                [
+                    "_nombre" => $usuario->_nombre, 
+                    "_clave" => $usuario->_clave,
+                    "_mail" => $usuario->_mail,
+                    "_id" => $usuario->_id,
+                    "_fechaAlta" => $usuario->_fechaAlta,
+                    "_rutaFoto" => $usuario->_rutaFoto                    
+                ]);
+            $usuariosJSON = $usuariosJSON.$aux."\n";
+        }
+
         if(file_put_contents("usuarios.json", $usuariosJSON)!==false)
         {
             $return = true;
@@ -178,30 +216,38 @@ Class usuario
         return $return;
     }
 
-    // public static function GuardarUsuariosJson($arrayUsuarios)
-    // {
-    //     $return = false;
-    //     $usuariosJSON="";
+    public static function LeerUsuariosJson($ruta)
+    {
+        $arrayUsuarios = array();
+        $contenidoJson = file_get_contents($ruta);
 
-    //     foreach ($arrayUsuarios as $usuario)
-    //     {
-    //         $aux = json_encode([
-    //             $usuario->_nombre,
-    //             $usuario->_clave,
-    //             $usuario->_mail,
-    //             $usuario->_id,
-    //             $usuario->_rutaFoto,
-    //             $usuario->_fechaAlta
-    //         ],JSON_PRETTY_PRINT);
-    //         $usuariosJSON = $usuariosJSON.$aux;
-    //     }
+        var_dump(json_decode($contenidoJson));
 
-    //     if(file_put_contents("usuarios.json", $usuariosJSON)!==false)
-    //     {
-    //         $return = true;
-    //     }
-    //     return $return;
-    // }
+        
+
+        //json_decode()
+
+
+        
+
+        //esto es para csv, tengo que adaptarlo
+        $arrayUsuarios = array();
+        
+        if($archivo = fopen($ruta, "r"))
+        {
+            while (!empty($usuarioString = fgetcsv($archivo)))
+            {
+                $usuario = new Usuario($usuarioString[0],$usuarioString[1],$usuarioString[2], $usuarioString[3], $usuarioString[4], $usuarioString[5]);
+                array_push($arrayUsuarios, $usuario);
+            }
+            fclose($archivo);
+        }
+        else
+        {
+            echo "No se pudo abrir el archivo.<br><br>";
+        }
+
+        return $arrayUsuarios;
+    }
 }
-
 ?>

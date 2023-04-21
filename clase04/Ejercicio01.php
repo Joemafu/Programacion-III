@@ -33,6 +33,14 @@ if ($nombre !== null && $clave !== null && $mail !== null)
 
     $arrayUsuarios = array();
 
+    //$arrayUsuarios = Usuario::LeerUsuariosJson("usuarios.json");
+
+
+    
+
+
+
+
     array_push($arrayUsuarios, $usuarioNuevo);  
     
     
