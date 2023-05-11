@@ -30,7 +30,7 @@ Class usuario
         }
         else
         {
-            $rutaFoto = $this->_id."\\Fotos\\".$this->_id.".jpg";
+            $rutaFoto = $this->_id.'\\Fotos\\'.$this->_id.'.jpg';
             if (file_exists($rutaFoto))
             {
                 $this->_rutaFoto=$rutaFoto;
@@ -95,12 +95,31 @@ Class usuario
 
     public function MostrarUsuario()
     {
-        echo "Nombre: $this->_nombre<br>Clave: $this->_clave<br>Mail: $this->_mail<br>";
+        echo "Nombre: $this->_nombre<br>Clave: $this->_clave<br>Mail: $this->_mail<br>Foto: $this->_rutaFoto<br>ID: $this->_id<br>Fecha de alta: $this->_fechaAlta<br>";
     }
 
     public function MostrarUsuarioEnListaHTML()
     {
-        echo "<ul><li>$this->_nombre</li><li>$this->_clave</li><li>$this->_mail</li></ul>";
+        echo "<ul>";
+        echo "<li>";
+        echo "Nombre: $this->_nombre<br>";
+        echo "</li>";
+        echo "<li>";
+        echo "Clave: $this->_clave<br>";
+        echo "</li>";
+        echo "<li>";
+        echo "Mail: $this->_mail<br>";
+        echo "</li>";
+        echo "<li>";
+        echo "Foto: <img src='$this->_rutaFoto' style='width: 5%; height: auto%;'>";
+        echo "</li>";
+        echo "<li>";
+        echo "ID: $this->_id<br>";
+        echo "</li>";
+        echo "<li>";
+        echo "Fecha de alta: $this->_fechaAlta<br>";
+        echo "</li>";
+        echo "</ul>";
     }
 
     public static function ValidarUsuario($mail, $clave, $arrayDeUsuarios)
@@ -126,7 +145,7 @@ Class usuario
     {
         if (file_exists("lastID.txt"))
         {
-            $archivo = fopen ("lastID.txt","r");
+            $archivo = fopen ("lastIDUsuario.txt","r");
             $return = fgets($archivo)+1;
             fclose($archivo);
         }
@@ -144,72 +163,53 @@ Class usuario
 
     public static function AsignarFechaAlta()
     {
-        return date('d/m/Y H:i:s');
+        return date('d-m-Y H:i:s');
     }
 
     public function GuardarFotoUsuario()
     {
-        //guardo el nombre temporal del archivo en una variable
-        $archivoTemporal = $_FILES["foto"]["tmp_name"];
+        //guardo referencia del archivo temporal en una variable
+        $archivoTemporal = $_FILES['foto']['tmp_name'];
 
-        //creo el directorio de fotos del usuario
-        if(mkdir($this->_id."\\Fotos",0777,true))
+        //guardo la ruta que le voy a dar a la foto en una variable
+        $ruta = $this->_id.'\\Fotos\\'.$this->_id.'.jpg';
+
+        //creo el directorio de fotos para el usuario
+        if(mkdir($this->_id.'\\Fotos',0777,true))
         {
-            //guardo la ruta de la foto en una variable
-            $ruta = $this->_id."\\Fotos\\".$this->_id.".jpg";
-        }
+            //persisto el archivo temporal en la ruta que predefiní
+            move_uploaded_file($archivoTemporal, $ruta);
+        }    
 
-        //persisto el archivo temporal en la ruta que predefiní
-        move_uploaded_file($archivoTemporal, $ruta);
-
-        //le asigno un atributo al usuario con la ruta de su foto ??
+        //le asigno un atributo al usuario con la ruta de su foto
         $this->_rutaFoto = $ruta;
     }
-
-    // public static function GuardarUsuariosJson($arrayUsuarios)
-    // {
-    //     $return = false;
-    //     $usuariosJSON = json_encode($arrayUsuarios);
-    //     if(file_put_contents("usuarios.json", $usuariosJSON)!==false)
-    //     {
-    //         $return = true;
-    //     }
-    //     return $return;
-    // }
 
     public static function GuardarUsuariosJson($arrayUsuarios)
     {
         $return = false;
         $usuariosJSON="";
 
-        foreach ($arrayUsuarios as $usuario)
+        for ($i=0; $i< count($arrayUsuarios);$i++)
         {
-            //Si lo quiero serializar como "valor" solo
-
-            // $aux = json_encode([
-            //     $usuario->_nombre, 
-            //     $usuario->_clave,
-            //     $usuario->_mail,
-            //     $usuario->_id,
-            //     $usuario->_fechaAlta,
-            //     $usuario->_rutaFoto  
-            // ]);
-
-            //Si lo quiero serializar como "clave:valor"
-
             $aux = json_encode(
                 [
-                    "_nombre" => $usuario->_nombre, 
-                    "_clave" => $usuario->_clave,
-                    "_mail" => $usuario->_mail,
-                    "_id" => $usuario->_id,
-                    "_fechaAlta" => $usuario->_fechaAlta,
-                    "_rutaFoto" => $usuario->_rutaFoto                    
+                    "_nombre" => $arrayUsuarios[$i]->_nombre, 
+                    "_clave" => $arrayUsuarios[$i]->_clave,
+                    "_mail" => $arrayUsuarios[$i]->_mail,
+                    "_rutaFoto" => $arrayUsuarios[$i]->_rutaFoto,
+                    "_id" => $arrayUsuarios[$i]->_id,
+                    "_fechaAlta" => $arrayUsuarios[$i]->_fechaAlta            
                 ]);
-            $usuariosJSON = $usuariosJSON.$aux."\n";
+            $usuariosJSON = $usuariosJSON.$aux;
+            if($i+1!=count($arrayUsuarios))
+            {
+                $usuariosJSON = $usuariosJSON.",\n";
+            }
         }
 
-        if(file_put_contents("usuarios.json", $usuariosJSON)!==false)
+
+        if(file_put_contents("usuarios.json", "[".$usuariosJSON."]")!==false)
         {
             $return = true;
         }
@@ -218,34 +218,20 @@ Class usuario
 
     public static function LeerUsuariosJson($ruta)
     {
+        $arrayObjetos = array();
         $arrayUsuarios = array();
         $contenidoJson = file_get_contents($ruta);
+        $arrayObjetos = json_decode($contenidoJson);
+        $nuevoUsuario = null;
 
-        var_dump(json_decode($contenidoJson));
-
-        
-
-        //json_decode()
-
-
-        
-
-        //esto es para csv, tengo que adaptarlo
-        $arrayUsuarios = array();
-        
-        if($archivo = fopen($ruta, "r"))
+        if($arrayObjetos!=null)
         {
-            while (!empty($usuarioString = fgetcsv($archivo)))
+            foreach ($arrayObjetos as $usuario)
             {
-                $usuario = new Usuario($usuarioString[0],$usuarioString[1],$usuarioString[2], $usuarioString[3], $usuarioString[4], $usuarioString[5]);
-                array_push($arrayUsuarios, $usuario);
+                $nuevoUsuario = new Usuario($usuario->_nombre,$usuario->_clave,$usuario->_mail,null,$usuario->_id,$usuario->_fechaAlta);
+                array_push($arrayUsuarios,$nuevoUsuario);
             }
-            fclose($archivo);
-        }
-        else
-        {
-            echo "No se pudo abrir el archivo.<br><br>";
-        }
+        }       
 
         return $arrayUsuarios;
     }

@@ -33,22 +33,12 @@ if ($nombre !== null && $clave !== null && $mail !== null)
 
     $arrayUsuarios = array();
 
-    //$arrayUsuarios = Usuario::LeerUsuariosJson("usuarios.json");
-
-
-    
-
-
-
+    if (Usuario::LeerUsuariosJson("usuarios.json")!= null)
+    {
+        $arrayUsuarios = Usuario::LeerUsuariosJson("usuarios.json");
+    }
 
     array_push($arrayUsuarios, $usuarioNuevo);  
-    
-    
-    echo "<br><br><br>";
-    //var_dump($arrayUsuarios);
-    echo "<br><br><br>";
-    // var_dump($ruta);
-    echo "<br><br><br>";
 
     if(Usuario::GuardarUsuariosJson($arrayUsuarios))
     {
