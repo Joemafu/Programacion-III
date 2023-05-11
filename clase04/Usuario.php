@@ -143,7 +143,7 @@ Class usuario
 
     public static function AsignarID()
     {
-        if (file_exists("lastID.txt"))
+        if (file_exists("lastIDUsuario.txt"))
         {
             $archivo = fopen ("lastIDUsuario.txt","r");
             $return = fgets($archivo)+1;
@@ -154,7 +154,7 @@ Class usuario
             $return = rand(1,10000);
         }        
 
-        $archivo = fopen ("lastID.txt","w");
+        $archivo = fopen ("lastIDUsuario.txt","w");
         fputs($archivo,$return);
         fclose($archivo);
 
