@@ -141,6 +141,17 @@
         {
             $this->_stock+=$stock;
         }
+
+        public function RestarStock($stock)
+        {
+            $return = false;
+            if($this->_stock>=$stock)
+            {
+                $this->_stock-=$stock;
+                $return=true;
+            }
+            return $return;
+        }
         
     }
 ?>

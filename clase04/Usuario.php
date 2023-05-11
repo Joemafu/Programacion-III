@@ -141,6 +141,22 @@ Class usuario
         return $retorno;
     }
 
+    public static function UsuarioExiste($id, $arrayUsuarios)
+        {
+            $return = false;
+
+            for ($i = 0; $i<count($arrayUsuarios); $i++)
+            {
+                if($arrayUsuarios[$i]->_id==$id)
+                {
+                    $return = $i;
+                    break;
+                }
+            }
+
+            return $return;
+        }
+
     public static function AsignarID()
     {
         if (file_exists("lastIDUsuario.txt"))
