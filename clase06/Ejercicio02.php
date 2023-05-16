@@ -10,6 +10,19 @@
 
     */
 
+    include_once "AccesoDatos.php";
+    include_once "Usuario.php";
 
+    $listado = $_GET["listado"];
 
+    if ($listado === "usuarios")
+    {
+        $objetoAcceso = AccesoDatos::dameUnObjetoAcceso();
+
+        $arrayUsuarios = array();
+
+        $arrayUsuarios = Usuario::LeerUsuariosDB();
+
+        echo Usuario::GuardarUsuariosJson($arrayUsuarios);
+    }
 ?>
