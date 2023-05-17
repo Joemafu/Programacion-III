@@ -140,28 +140,38 @@ class Pizza
         {
             if ($pizza->sabor == $sabor && $pizza->tipo == $tipo) 
             {
-                $pizza->precio = $precio;
-                $pizza->cantidad += $cantidad;
-                $return = $pizza;
+                if($pizza->cantidad + $cantidad>=0)
+                {
+                    if($precio!=0)
+                    {
+                        $pizza->precio = $precio;
+                    }
+                    $pizza->cantidad += $cantidad;
+                    $return = $pizza;
+                }         
+                else
+                {
+                    echo "No hay suficiente stock para cumplir con el pedido.";
+                    return false;
+                }       
                 break;
             }
         }
 
         if($return!=false)
         {
-            echo "La pizza existía, se actualizó el precio y el stock.<br>";
+            echo "Se actualizó el stock.<br>";
         }
 
         if (Pizza::GuardarPizzasJson($arrayPizzas)!=false)
         {
-            echo "Se guardaron los cambios";
+            echo "Se guardaron los cambios.<br>";
         }
         return $return;
     }
 
     public function GuardarFotoPizza($foto)
     {
-
         if (is_array($foto))
         {
             //guardo referencia del archivo temporal en una variable

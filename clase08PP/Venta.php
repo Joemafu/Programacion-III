@@ -1,24 +1,27 @@
 <?php
 
     include_once "Helado.php";
+    include_once "Cupon.php";
 
     class venta
     {
         private $mailUsuario;
         private $sabor;
         private $tipo;
-        private $cantidad;
+        private $vaso;
+        private $stock;
         private $fecha;
         private $numeroDePedido;
         private $id;
-        private $imagenDeLaVenta;
+        private $foto;
 
-        public function __construct($mailUsuario, $sabor, $tipo, $cantidad, $fecha=null, $numeroDePedido=null, $id=null, $imagenDeLaVenta=null)
+        public function __construct($mailUsuario, $sabor, $tipo, $stock, $vaso, $fecha=null, $numeroDePedido=null, $id=null, $foto=null)
         {
             $this->mailUsuario = $mailUsuario;
             $this->sabor = $sabor;
             $this->tipo = $tipo;
-            $this->cantidad = $cantidad;
+            $this->stock = $stock;
+            $this->vaso = $vaso;
 
             if ($fecha===null)
             {
@@ -47,8 +50,7 @@
                 $this->id = $id;
             }
 
-            $rutaFoto = "ImagenesDeHelados\\".$this->tipo.$this->sabor.".jpg";
-            $this->GuardarFotoVenta($rutaFoto);
+            $this->GuardarFotoVenta($foto);
         }
 
         public static function AsignarID()
@@ -98,20 +100,31 @@
 
         public function GuardarFotoVenta($foto)
         {
-            if (!is_dir("ImagenesDeLaVenta"))
+            if (is_array($foto))
             {
-                mkdir('ImagenesDeLaVenta',0777,true);
+                //guardo referencia del archivo temporal en una variable
+                $archivoTemporal = $_FILES['foto']['tmp_name'];
+
+
+                $partes = explode("@", $this->mailUsuario);
+
+                $nombreUsuario = $partes[0];
+
+                $rutaDestino = 'ImagenesDeLaVenta\\2023'.$this->sabor.$this->tipo.$this->vaso.$nombreUsuario.$this->fecha.'.jpg';
+
+                if (!is_dir("ImagenesDeLaVenta\\2023"))
+                {
+                    mkdir('ImagenesDeLaVenta\\2023',0777,true);
+                }
+
+                move_uploaded_file($archivoTemporal, $rutaDestino);
+
+                $this->foto = $rutaDestino;
             }
-
-            $partes = explode("@", $this->mailUsuario);
-
-            $nombreUsuario = $partes[0];
-
-            $rutaDestino = 'ImagenesDeLaVenta\\'.$this->tipo.$this->sabor.$nombreUsuario.$this->fecha.'.jpg';
-
-            copy($foto, $rutaDestino);
-
-            $this->imagenDeLaVenta=$rutaDestino;
+            else
+            {
+                $this->foto = $foto;
+            }
         }
 
         public static function LeerVentasJson()
@@ -128,7 +141,7 @@
                 {
                     foreach ($arrayObjetos as $venta)
                     {
-                        $nuevaVenta = new Venta($venta->mailUsuario,$venta->sabor,$venta->tipo,$venta->cantidad,$venta->fecha,$venta->numeroDePedido,$venta->id,$venta->imagenDeLaVenta);
+                        $nuevaVenta = new Venta($venta->mailUsuario,$venta->sabor,$venta->tipo,$venta->vaso,$venta->stock,$venta->fecha,$venta->numeroDePedido,$venta->id,$venta->imagenDeLaVenta);
 
                         array_push($arrayVentas,$nuevaVenta);
                     }
@@ -149,11 +162,12 @@
                         "mailUsuario" => $arrayVentas[$i]->mailUsuario, 
                         "sabor" => $arrayVentas[$i]->sabor, 
                         "tipo" => $arrayVentas[$i]->tipo,
-                        "cantidad" => (int)$arrayVentas[$i]->cantidad,
+                        "vaso" => $arrayVentas[$i]->vaso,
+                        "stock" => (int)$arrayVentas[$i]->stock,
                         "fecha" => $arrayVentas[$i]->fecha,
                         "numeroDePedido" => (int)$arrayVentas[$i]->numeroDePedido,                        
                         "id" => (int)$arrayVentas[$i]->id,
-                        "imagenDeLaVenta" => $arrayVentas[$i]->imagenDeLaVenta
+                        "imagenDeLaVenta" => $arrayVentas[$i]->foto
                     ]);
                 $ventasJson = $ventasJson.$aux;
                 if($i+1!=count($arrayVentas))
@@ -169,7 +183,7 @@
             return $return;
         }
 
-        public static function EliminarVenta($nroPedido)
+        public static function DevolverPedido($nroPedido,$causaDevolucion,$foto)
         {
             $return = false;
             $arrayVentas = Venta::LeerVentasJson();
@@ -178,26 +192,16 @@
             {
                 if($arrayVentas[$i]->numeroDePedido == $nroPedido)
                 {
-                    if (!is_dir("BACKUPVENTAS"))
-                    {
-                        mkdir('BACKUPVENTAS',0777,true);
-                    }
-                    $partes = explode("\\", $arrayVentas[$i]->imagenDeLaVenta);
-
-                    $rutaDestino = 'BACKUPVENTAS\\'.$partes[1];
-
-                    rename($arrayVentas[$i]->imagenDeLaVenta, $rutaDestino);
+                    $cupon = new Cupon($nroPedido,null,$causaDevolucion,$foto);
                     
-                    array_splice($arrayVentas,$i,1);
-                    Venta::GuardarVentasJson($arrayVentas);
-                    $return = true;
+                    $return = $cupon;
                     break;
                 }
             }
             return $return;
         }
 
-        public static function ModificarVenta($nroPedido, $mail, $sabor, $tipo, $cantidad)
+        public static function ModificarVenta($nroPedido, $mail, $sabor, $tipo, $vaso, $stock)
         {
             $return = false;
             $arrayVentas = Venta::LeerVentasJson();
@@ -209,8 +213,8 @@
                     $arrayVentas[$i]->mailUsuario = $mail;
                     $arrayVentas[$i]->sabor = $sabor;
                     $arrayVentas[$i]->tipo = $tipo;
-                    $arrayVentas[$i]->cantidad = $cantidad;
-
+                    $arrayVentas[$i]->vaso = $vaso;
+                    $arrayVentas[$i]->stock = $stock;
 
                     Venta::GuardarVentasJson($arrayVentas);
                     $return = true;
@@ -220,7 +224,7 @@
             return $return;
         }
 
-        public static function SumarHeladosVendidas()
+        public static function SumarHeladosVendidas($fecha)
         {
             $return = 0;
             $arrayVentas = Venta::LeerVentasJson();
@@ -228,10 +232,30 @@
             {
                 foreach ($arrayVentas as $venta)
                 {
-                    $return += $venta->cantidad;
+                    if($fecha==null || date("Y-m-d")==$fecha)
+                    {
+                        $return += $venta->stock;
+                    }
                 }
             }
-            echo "Se vendió un total de " .$return. " pizzas.";
+            echo "Se vendió un total de " .$return. " helados.";
+        }
+
+        public static function FiltrarVentasCucurucho()
+        {
+            $return = 0;
+            $arrayVentas = Venta::LeerVentasJson();
+            if($arrayVentas!=null)
+            {
+                foreach ($arrayVentas as $venta)
+                {
+                    if($venta->vaso=="cucurucho")
+                    {
+                        $return += $venta->stock;
+                    }
+                }
+            }
+            echo "Se vendió un total de " .$return. " helados.";
         }
 
         public static function FiltrarVentasPorUsuario($usuario)
@@ -288,11 +312,40 @@
             echo "Mail Usuario: " . $this->mailUsuario . "<br>";
             echo "Sabor: " . $this->sabor . "<br>";
             echo "Tipo: " . $this->tipo . "<br>";
-            echo "Cantidad: " . $this->cantidad . "<br>";
+            echo "Vaso: " . $this->vaso . "<br>";
+            echo "Stock: " . $this->stock . "<br>";
             echo "Fecha: " . $this->fecha . "<br>";
             echo "Número de Pedido: " . $this->numeroDePedido . "<br>";
             echo "ID: " . $this->id . "<br>";
-            echo "Imagen de la Venta: " . $this->imagenDeLaVenta . "<br><br>";
+            echo "Foto: " . $this->foto . "<br><br>";
+        }
+
+        public static function EliminarVenta($nroPedido)
+        {
+            $return = false;
+            $arrayVentas = Venta::LeerVentasJson();
+
+            for ($i=0; $i<count($arrayVentas);$i++)
+            {
+                if($arrayVentas[$i]->numeroDePedido == $nroPedido)
+                {
+                    if (!is_dir("BACKUPVENTAS\\2023"))
+                    {
+                        mkdir('BACKUPVENTAS\\2023',0777,true);
+                    }
+                    $partes = explode("\\", $arrayVentas[$i]->foto);
+
+                    $rutaDestino = 'BACKUPVENTAS\\2023\\'.$partes[1];
+
+                    rename($arrayVentas[$i]->foto, $rutaDestino);
+                    
+                    array_splice($arrayVentas,$i,1);
+                    Venta::GuardarVentasJson($arrayVentas);
+                    $return = true;
+                    break;
+                }
+            }
+            return $return;
         }
 
     }

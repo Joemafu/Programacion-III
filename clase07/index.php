@@ -78,6 +78,14 @@
     {
         case 'GET':
         {
+            if (isset($_GET['consultaVenta'])) 
+            {
+                include_once "ConsultarVentas.php";
+            }
+            else
+            {            
+                echo "Error: Faltan datos para realizar la operación.";
+            }
             break;
         }
         case 'POST':
@@ -106,10 +114,29 @@
         }  
         case 'PUT':
         {
+            parse_str(file_get_contents("php://input"),$put_vars);
+
+            if (isset($put_vars['nroPedido']) && isset($put_vars['sabor']) && isset($put_vars['mail']) && isset($put_vars['tipo']) && isset($put_vars['cantidad']))
+            {
+                include_once "ModificarVenta.php";
+            }
+            else
+            {            
+                echo "Error: Faltan datos para realizar la operación.";
+            }
             break;
         }
-        case 'DELETE':
+        case "DELETE":
         {
+            parse_str(file_get_contents("php://input"),$put_vars);
+            if (isset($put_vars['nroPedido'])) 
+            {
+                include_once "BorrarVenta.php";
+            }
+            else
+            {            
+                echo "Error: Faltan datos para realizar la operación.";
+            }
             break;
         }
         default:{
