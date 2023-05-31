@@ -1,0 +1,6 @@
+    Visual studio code (o algún IDE similar): https://code.visualstudio.com/download
+    XAMPP (paquete de software): https://www.apachefriends.org/es/index.html
+    Postman (Cliente HTTP): https://www.postman.com/
+    OnlineGDB (Compartir código): https://www.onlinegdb.com/
+    Composer https://getcomposer.org/download/?authuser=0
+    Json formatter https://jsonformatter.curiousconcept.com/?authuser=0

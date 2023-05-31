@@ -1,0 +1,48 @@
+    Documentación útil sobre PHP:
+
+    clase 01
+    https://www.php.net/
+    https://www.w3schools.com/php/default.asp
+    https://www.php-fig.org/psr/psr-1/
+
+    clase 02
+    https://desarrolloweb.com/articulos/sobrecarga-constructores-php.html
+
+    clase 03 https://drive.google.com/file/d/1fPzUuRUxxAmXcFbuJTJq3c99_zMD7Bky/view?usp=sharing
+    https://developer.mozilla.org/es/docs/Web/HTTP/
+    https://http.cat/
+    https://httpstat.us/
+    https://www.php.net/manual/en/function.explode.php?authuser=0
+    https://www.php.net/manual/en/function.implode.php?authuser=0
+    https://www.php.net/manual/es/function.fgetcsv.php?authuser=0
+    https://linuxgx.blogspot.com/2018/09/establecer-permisos-la-carpeta-htdocs.html?authuser=0
+
+    clase 04 https://drive.google.com/file/d/1nKhZjZjBUCeO7CLQKNl9ND6m_1ik3y7W/view?usp=sharing
+    parte 2  https://drive.google.com/file/d/1JaepeL5MEbF3D6vQ0grxZZcw1eHgtgDd/view?usp=sharing
+    https://www.php.net/manual/en/function.json-decode.php?authuser=0
+    https://www.php.net/manual/en/function.json-encode.php?authuser=0
+
+    clase 05 https://drive.google.com/file/d/1DNNWnN5SFyAOKxnB7v7SYhCujRA2427V/view
+    https://mariadb.com/kb/en/data-manipulation/?authuser=0
+    https://www.db-fiddle.com/f/is8eAXQJSn4zCQnQxhFGkS/1?authuser=0
+    https://dev.mysql.com/doc/refman/8.0/en/non-typed-operators.html?authuser=0
+    https://www.w3schools.com/sql/default.asp?authuser=0
+
+    clase 06 https://drive.google.com/file/d/1kmujnnCO9C6nzL8Bh_pjzUDLRMyerths/view
+    parte 2  https://drive.google.com/file/d/1ejarup74atNPYGio7EajgeVBCisSwoOb/view
+    https://www.php.net/manual/es/pdostatement.bindcolumn.php?authuser=0
+    https://www.php.net/manual/es/pdostatement.bindvalue.php?authuser=0
+    https://www.php.net/manual/es/book.pdo.php?authuser=0
+    https://www.php.net/manual/es/pdostatement.bindparam.php?authuser=0
+    Ejemplos PDO https://github.com/octaviovillegas/PDOEjemplo?authuser=0
+    https://drive.google.com/file/d/1E3bMZb0Ze8fCsVr4TGnbbzzVUsMbRD9G/view
+    Ejemplo Grafos https://whimsical.com/index-php-CBxhrwf7WkCFd14Qe2dKUE?authuser=0
+
+    clase 09 https://drive.google.com/file/d/1WSwcniSCS3tTZInqc-_aulEyGC7XxdKg/view
+    parte 2  https://drive.google.com/file/d/1VJ2nwx3MtC_h9fXgfvmAMsmp0OlzOzNE/view
+    https://www.slimframework.com/docs/v4/?authuser=0
+    https://github.com/flippiJS/slim-php-deployment
+    https://github.com/flippiJS/slim-php-mysql-heroku/tree/middleware?authuser=0
+
+    clase 10 https://drive.google.com/file/d/1gba_xc2Pf5r7AthXBdYaCEwJqYbNc0l8/view
+    https://www.slimframework.com/docs/v4/concepts/middleware.html?authuser=0
