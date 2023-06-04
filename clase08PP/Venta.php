@@ -72,9 +72,6 @@
             {
                 $this->importeFinal=$importeFinal;
             }
-            // echo "<br>----------------------<br>";
-            // var_dump($this);
-            // echo"<br>----------------------<br>";
         }
 
         public function getMailUsuario() {
