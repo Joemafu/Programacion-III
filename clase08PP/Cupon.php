@@ -2,7 +2,6 @@
 
 class Cupon
 {
-
     public $id;
     public $devolucion_id;
     public $causaDevolucion;

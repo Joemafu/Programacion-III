@@ -26,11 +26,5 @@
         array_push($arrayVentas, $nuevaVenta);
 
         Venta::GuardarVentasJson($arrayVentas);
-        
-        //echo "Se vendieron ".$stock." helados de ".$sabor." ".$tipo." al usuario ".$mail;
     }
-
-    
-
-
 ?>
