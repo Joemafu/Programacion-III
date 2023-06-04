@@ -29,7 +29,7 @@ class Helado
 
         if ($foto !== null)
         {
-            $this->guardarFotoHelado($foto);
+            $this->GuardarFotoHelado($foto);
         }
         else
         {
@@ -155,7 +155,6 @@ class Helado
                 else
                 {
                     echo "No hay suficiente stock para cumplir con el pedido.";
-                    return false;
                 }       
                 break;
             }
@@ -164,12 +163,13 @@ class Helado
         if($return!=false)
         {
             echo "Se actualizó el stock.<br>";
-        }
 
-        if (Helado::GuardarHeladosJson($arrayHelados)!=false)
-        {
-            echo "Se guardaron los cambios.<br>";
+            if (Helado::GuardarHeladosJson($arrayHelados)!=false)
+            {
+                echo "Se guardaron los cambios.<br>";
+            }
         }
+        
         return $return;
     }
 
@@ -199,6 +199,22 @@ class Helado
             $this->foto = $foto;
         }
     }
+
+    public static function GetPrecio($sabor, $tipo)
+    {
+        $return = false;
+        $arrayHelados = Helado::LeerHeladosJson();
+
+        foreach ($arrayHelados as $helado)
+        {
+            if ($helado->sabor == $sabor && $helado->tipo = $tipo)
+            {
+                $return = $helado->precio;
+                break;
+            }
+        }
+        return $return;
+    } 
 }
 
 

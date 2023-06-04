@@ -2,20 +2,23 @@
 
     include_once "Helado.php";
     include_once "Cupon.php";
+    include_once "Devolucion.php";
 
     class venta
     {
         private $mailUsuario;
         private $sabor;
         private $tipo;
-        private $vaso;
         private $stock;
+        private $vaso;
         private $fecha;
         private $numeroDePedido;
         private $id;
         private $foto;
+        private $importeFinal;
+        private $descuentoAplicado;
 
-        public function __construct($mailUsuario, $sabor, $tipo, $stock, $vaso, $fecha=null, $numeroDePedido=null, $id=null, $foto=null)
+        public function __construct($mailUsuario, $sabor, $tipo, $stock, $vaso, $fecha=null, $numeroDePedido=null, $id=null, $foto=null, $cupon=null, $descuentoAplicado=null, $importeFinal=null)
         {
             $this->mailUsuario = $mailUsuario;
             $this->sabor = $sabor;
@@ -51,6 +54,63 @@
             }
 
             $this->GuardarFotoVenta($foto);
+
+            if($descuentoAplicado==null)
+            {
+                $this->descuentoAplicado=Cupon::ValidarCupon($cupon);
+            }
+            else
+            {
+                $this->descuentoAplicado=$descuentoAplicado;
+            }
+            
+            if($importeFinal==null)
+            {
+                $this->importeFinal=Venta::CalcularImporteFinal($sabor,$tipo,$stock,$this->descuentoAplicado);
+            }
+            else
+            {
+                $this->importeFinal=$importeFinal;
+            }
+            // echo "<br>----------------------<br>";
+            // var_dump($this);
+            // echo"<br>----------------------<br>";
+        }
+
+        public function getMailUsuario() {
+            return $this->mailUsuario;
+        }
+    
+        public function getSabor() {
+            return $this->sabor;
+        }
+    
+        public function getTipo() {
+            return $this->tipo;
+        }
+    
+        public function getVaso() {
+            return $this->vaso;
+        }
+    
+        public function getStock() {
+            return $this->stock;
+        }
+    
+        public function getFecha() {
+            return $this->fecha;
+        }
+    
+        public function getNumeroDePedido() {
+            return $this->numeroDePedido;
+        }
+    
+        public function getId() {
+            return $this->id;
+        }
+    
+        public function getFoto() {
+            return $this->foto;
         }
 
         public static function AsignarID()
@@ -110,7 +170,7 @@
 
                 $nombreUsuario = $partes[0];
 
-                $rutaDestino = 'ImagenesDeLaVenta\\2023'.$this->sabor.$this->tipo.$this->vaso.$nombreUsuario.$this->fecha.'.jpg';
+                $rutaDestino = 'ImagenesDeLaVenta\\2023\\'.$this->sabor.$this->tipo.$this->vaso.$nombreUsuario.$this->fecha.'.jpg';
 
                 if (!is_dir("ImagenesDeLaVenta\\2023"))
                 {
@@ -141,7 +201,20 @@
                 {
                     foreach ($arrayObjetos as $venta)
                     {
-                        $nuevaVenta = new Venta($venta->mailUsuario,$venta->sabor,$venta->tipo,$venta->vaso,$venta->stock,$venta->fecha,$venta->numeroDePedido,$venta->id,$venta->imagenDeLaVenta);
+                        $nuevaVenta = new Venta(
+                            $venta->mailUsuario,
+                            $venta->sabor,
+                            $venta->tipo,
+                            $venta->stock,
+                            $venta->vaso,
+                            $venta->fecha,
+                            $venta->numeroDePedido,
+                            $venta->id,
+                            $venta->imagenDeLaVenta,
+                            null,
+                            $venta->descuentoAplicado,
+                            $venta->importeFinal
+                        );
 
                         array_push($arrayVentas,$nuevaVenta);
                     }
@@ -167,7 +240,9 @@
                         "fecha" => $arrayVentas[$i]->fecha,
                         "numeroDePedido" => (int)$arrayVentas[$i]->numeroDePedido,                        
                         "id" => (int)$arrayVentas[$i]->id,
-                        "imagenDeLaVenta" => $arrayVentas[$i]->foto
+                        "imagenDeLaVenta" => $arrayVentas[$i]->foto,
+                        "descuentoAplicado" => $arrayVentas[$i]->descuentoAplicado,
+                        "importeFinal" => $arrayVentas[$i]->importeFinal
                     ]);
                 $ventasJson = $ventasJson.$aux;
                 if($i+1!=count($arrayVentas))
@@ -185,20 +260,33 @@
 
         public static function DevolverPedido($nroPedido,$causaDevolucion,$foto)
         {
-            $return = false;
+            $cupon = false;
             $arrayVentas = Venta::LeerVentasJson();
 
             for ($i=0; $i<count($arrayVentas);$i++)
             {
                 if($arrayVentas[$i]->numeroDePedido == $nroPedido)
                 {
-                    $cupon = new Cupon($nroPedido,null,$causaDevolucion,$foto);
-                    
-                    $return = $cupon;
+                    $cupon = new Cupon($nroPedido,null,$causaDevolucion,10,"No usado",$foto);
+
+
+
+                    $arrayDevoluciones = Devolucion::LeerDevolucionesJson();
+                    array_push($arrayDevoluciones, $arrayVentas[$i]);
+                    Devolucion::GuardarDevolucionesJson($arrayDevoluciones);
+    
+                    $arrayCupones = Cupon::LeerCuponesJson();
+                    array_push($arrayCupones, $cupon);
+                    Cupon::GuardarCuponesJson($arrayCupones);
+
+                    array_splice($arrayVentas,$i,1);
+                    Venta::GuardarVentasJson($arrayVentas);
+
                     break;
                 }
             }
-            return $return;
+
+            return $cupon;
         }
 
         public static function ModificarVenta($nroPedido, $mail, $sabor, $tipo, $vaso, $stock)
@@ -224,7 +312,7 @@
             return $return;
         }
 
-        public static function SumarHeladosVendidas($fecha)
+        public static function SumarHeladosVendidos($fecha)
         {
             $return = 0;
             $arrayVentas = Venta::LeerVentasJson();
@@ -232,7 +320,7 @@
             {
                 foreach ($arrayVentas as $venta)
                 {
-                    if($fecha==null || date("Y-m-d")==$fecha)
+                    if($venta->fecha == $fecha)
                     {
                         $return += $venta->stock;
                     }
@@ -251,11 +339,14 @@
                 {
                     if($venta->vaso=="cucurucho")
                     {
-                        $return += $venta->stock;
+                        $venta->mostrar();
                     }
                 }
             }
-            echo "Se vendió un total de " .$return. " helados.";
+            else
+            {
+                echo "No hay ventas registradas.";
+            }
         }
 
         public static function FiltrarVentasPorUsuario($usuario)
@@ -309,15 +400,17 @@
         }
 
         public function mostrar() {
-            echo "Mail Usuario: " . $this->mailUsuario . "<br>";
+            echo "Mail de Usuario: " . $this->mailUsuario . "<br>";
             echo "Sabor: " . $this->sabor . "<br>";
             echo "Tipo: " . $this->tipo . "<br>";
-            echo "Vaso: " . $this->vaso . "<br>";
             echo "Stock: " . $this->stock . "<br>";
+            echo "Vaso: " . $this->vaso . "<br>";
             echo "Fecha: " . $this->fecha . "<br>";
             echo "Número de Pedido: " . $this->numeroDePedido . "<br>";
             echo "ID: " . $this->id . "<br>";
-            echo "Foto: " . $this->foto . "<br><br>";
+            echo "Foto: " . $this->foto . "<br>";
+            echo "Importe Final: " . $this->importeFinal . "<br>";
+            echo "Descuento Aplicado: " . $this->descuentoAplicado . "%<br><br>";
         }
 
         public static function EliminarVenta($nroPedido)
@@ -329,13 +422,13 @@
             {
                 if($arrayVentas[$i]->numeroDePedido == $nroPedido)
                 {
-                    if (!is_dir("BACKUPVENTAS\\2023"))
+                    if (!is_dir("ImagenesBackupVentas\\2023"))
                     {
-                        mkdir('BACKUPVENTAS\\2023',0777,true);
+                        mkdir('ImagenesBackupVentas\\2023',0777,true);
                     }
                     $partes = explode("\\", $arrayVentas[$i]->foto);
 
-                    $rutaDestino = 'BACKUPVENTAS\\2023\\'.$partes[1];
+                    $rutaDestino = 'ImagenesBackupVentas\\2023\\'.$partes[2];
 
                     rename($arrayVentas[$i]->foto, $rutaDestino);
                     
@@ -348,5 +441,12 @@
             return $return;
         }
 
+        public static function CalcularImporteFinal($sabor,$tipo,$cantidad,$descuento)
+        {
+            $precioUnidad = Helado::GetPrecio($sabor,$tipo);
+            $subTotal = $precioUnidad * $cantidad;
+            $total = ($subTotal*(100-$descuento))/100;
+            return $total;            
+        }
     }
 ?>

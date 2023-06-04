@@ -76,7 +76,7 @@ Y si se suman los catorce puntos la nota será de diez (10).
     {
         case 'POST':
         {      
-            if (isset($_POST['nroPedido']) && isset($_POST['causaDevolucion'])) 
+            if (isset($_POST['nroPedido']) && isset($_POST['causaDevolucion']) && isset($_FILES['foto'])) 
             {
                 include_once "DevolverHelado.php";
             }
@@ -106,6 +106,10 @@ Y si se suman los catorce puntos la nota será de diez (10).
             if (isset($_GET['consultaVenta'])) 
             {
                 include_once "ConsultasVentas.php";
+            }
+            else if (isset($_GET['consultaDevolucion']))
+            {
+                include_once "ConsultasDevoluciones.php";
             }
             else
             {            

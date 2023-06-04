@@ -10,10 +10,16 @@
     $vaso = $_POST['vaso'];
     $stock = $_POST['stock'];
     $foto = $_FILES['foto'];
+    $cupon = null;
+
+    if (isset($_POST['cupon']))
+    {
+        $cupon = $_POST['cupon'];
+    }
 
     if(Helado::ActualizarHelado($sabor,0,$tipo,$vaso,0-$stock)!=false)
     {
-        $nuevaVenta = new Venta ($usuario,$sabor,$tipo, $stock, $vaso,null,null,null,$foto);
+        $nuevaVenta = new Venta ($usuario,$sabor,$tipo, $stock, $vaso,null,null,null,$foto,$cupon,null,null);
 
         $arrayVentas = Venta::LeerVentasJson();
 
@@ -23,6 +29,8 @@
         
         //echo "Se vendieron ".$stock." helados de ".$sabor." ".$tipo." al usuario ".$mail;
     }
+
+    
 
 
 ?>

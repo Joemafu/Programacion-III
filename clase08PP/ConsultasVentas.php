@@ -9,9 +9,19 @@ $errorDatos = "La consulta ingresada no es válida";
 
 switch ($consulta)
 {
-    case "cantHeladosVendidas":
+    case "cantHeladosVendidos":
         {
-            Venta::SumarHeladosVendidas($consulta = $_GET['fechaVentas']);
+            $fecha = "";
+            if(isset($_GET['fechaVentas']))
+            {
+                $fecha = $_GET['fechaVentas'];
+            }
+            if ($fecha=="")
+            {
+                $fecha = ((string)date('Y-m-d', strtotime('-1 day')));
+                echo "Fecha no indicada, de contabiliazarán las ventas de ayer:<br>";
+            }
+            Venta::SumarHeladosVendidos($fecha);
             break;
         }  
     case "ventasSegunUsuario":
@@ -30,7 +40,7 @@ switch ($consulta)
         {
             if(isset($_GET['fechaUno']) && isset($_GET['fechaDos']))
             {
-                Venta::FiltrarVentasEntreFechas($_GET['fechaUno'],$_GET['fechaUno']);
+                Venta::FiltrarVentasEntreFechas($_GET['fechaUno'],$_GET['fechaDos']);
             }
             else
             {
@@ -52,14 +62,7 @@ switch ($consulta)
         }                
     case "ventasCucurucho":
         {
-            if(isset($_GET['sabor']))
-            {
-                Venta::FiltrarVentasCucurucho();
-            }
-            else
-            {
-                echo $errorDatos;
-            }
+            Venta::FiltrarVentasCucurucho();
             break;
         }        
     default:

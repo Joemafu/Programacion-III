@@ -1,0 +1,717 @@
+{
+	"info": {
+		"_postman_id": "30d4452d-92e0-4bd7-8f3b-dd29c558d655",
+		"name": "PrimerParcial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11641925"
+	},
+	"item": [
+		{
+			"name": "Alta Heladería",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "450",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "crema",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "cucurucho",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "500",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/heladeria/sambayon.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Helado Consultar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "crema",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta Venta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "crema",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "usuario@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "cucurucho",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/asi ira.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar cant helados vendidos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaVenta=cantHeladosVendidos&fechaVentas=2023-06-04",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaVenta",
+							"value": "cantHeladosVendidos"
+						},
+						{
+							"key": "fechaVentas",
+							"value": "2023-06-04"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar ventas por usuario",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaVenta=ventasSegunUsuario&usuario=usuario@correo.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaVenta",
+							"value": "ventasSegunUsuario"
+						},
+						{
+							"key": "usuario",
+							"value": "usuario@correo.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar ventas entre fechas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "agua",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "usuario@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "cucurucho",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/asi ira.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaVenta=ventasEntreFechas&fechaUno=2023-06-04&fechaDos=2023-06-06",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaVenta",
+							"value": "ventasEntreFechas"
+						},
+						{
+							"key": "fechaUno",
+							"value": "2023-06-04"
+						},
+						{
+							"key": "fechaDos",
+							"value": "2023-06-06"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar ventas por sabor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "agua",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "usuario@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "cucurucho",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/asi ira.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaVenta=ventasSegunSabor&sabor=sambayon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaVenta",
+							"value": "ventasSegunSabor"
+						},
+						{
+							"key": "sabor",
+							"value": "sambayon"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar ventas cucurucho",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "agua",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "usuario@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "cucurucho",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/asi ira.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaVenta=ventasCucurucho",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaVenta",
+							"value": "ventasCucurucho"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar Venta",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "agua",
+							"type": "text"
+						},
+						{
+							"key": "mail",
+							"value": "mailalternativo@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "cantidad",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "plastico",
+							"type": "text"
+						},
+						{
+							"key": "nroPedido",
+							"value": "4969",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Devolver Helado",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nroPedido",
+							"value": "4970",
+							"type": "text"
+						},
+						{
+							"key": "causaDevolucion",
+							"value": "causa",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/archivo de un delegado.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Venta",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nroPedido",
+							"value": "4302",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alta Venta con Cupón",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "sabor",
+							"value": "sambayon",
+							"type": "text"
+						},
+						{
+							"key": "tipo",
+							"value": "crema",
+							"type": "text"
+						},
+						{
+							"key": "usuario",
+							"value": "test@correo.com",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "vaso",
+							"value": "plastico",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/C:/Users/Joe/Desktop/e.StackTrace.png"
+						},
+						{
+							"key": "cupon",
+							"value": "10281",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Devoluciones con Cupones",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaDevolucion=devolucionesConCupon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaDevolucion",
+							"value": "devolucionesConCupon"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Devoluciones con Cupones Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaDevolucion=cuponesEstado",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaDevolucion",
+							"value": "cuponesEstado"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Devoluciones con Cupones Copy 2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/Programacion-III/clase08PP/index.php?consultaDevolucion=devolucionesCuponesEstado",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"Programacion-III",
+						"clase08PP",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "consultaDevolucion",
+							"value": "devolucionesCuponesEstado"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
