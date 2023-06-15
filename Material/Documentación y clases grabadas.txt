@@ -46,3 +46,14 @@
 
     clase 10 https://drive.google.com/file/d/1gba_xc2Pf5r7AthXBdYaCEwJqYbNc0l8/view
     https://www.slimframework.com/docs/v4/concepts/middleware.html?authuser=0
+
+    clase 11 https://drive.google.com/file/d/1KP19gAicn2exYVi9H_tg6mdne7jjDDIs/view
+    https://drive.google.com/file/d/1uTNqzPNIG65WvFjsOYBIHLD_WAhWEqRM/view
+    https://github.com/octaviovillegas/APIREST-PHP-POO-JWT-MIDDLEWARE-Documentar?authuser=0
+    https://github.com/flippiJS/slim-php-mysql-heroku/tree/jwt?authuser=0
+    https://jwt.io/?authuser=0
+
+    clase 12 https://github.com/flippiJS/slim-php-mysql-deployment/tree/main
+    https://slim-php-mysql-deployment-production.up.railway.app/
+    
+    
