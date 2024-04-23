@@ -19,9 +19,17 @@
 
 */
 
-$a = 1; $b = 5; $c = 1;
+$a = 1; $b = 5; $c = 2;
 
 $array = [$a,$b,$c];
+
+foreach ($array as $key => $value) {
+    echo "Numero ",$key+1,": ",$value,"<br>";
+}
+
+echo "<br>---------------------------------<br><br>";
+
+
 
 sort($array);
 

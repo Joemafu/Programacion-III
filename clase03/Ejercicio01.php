@@ -13,7 +13,7 @@ $auto8 = new Auto("Fiat", "Verde", 180000);
 
 $arrayAutos = array($auto1, $auto2, $auto3, $auto4, $auto5, $auto6, $auto7, $auto8);
 
-Auto::GuardarAutosCSV($arrayAutos);
+Auto::GuardarAutosCSV($arrayAutos, "autos.csv");
 
 
 $arrayLeido = Auto::LeerAutosCSV("autos.csv");

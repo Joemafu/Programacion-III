@@ -1,1 +1,2 @@
-[{"_codigoBarras":"651324","_nombre":"Banana","_tipo":"Fruta","_stock":300,"_precio":"19.99","_id":9698}]
+[{"_codigoBarras":"651324","_nombre":"Banana","_tipo":"Fruta","_stock":1000,"_precio":"19.99","_id":9698},
+{"_codigoBarras":"651325","_nombre":"Calabaza","_tipo":"Verdura","_stock":4000,"_precio":"24.99","_id":9699}]
